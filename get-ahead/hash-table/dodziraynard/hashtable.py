@@ -7,7 +7,7 @@ Implmentation of a HashTable in Python.
 from collections import namedtuple
 from typing import Any
 
-Element = namedtuple("Element", "key, value")
+Entry = namedtuple("Entry", "key, value")
 
 
 class HashTable:
@@ -67,18 +67,18 @@ class HashTable:
 
     def __setitem__(self, key, value):
         index = self._get_index(key)
-        element = Element(key, value)
+        entry = Entry(key, value)
 
         if self._slot[index]:
             for sub_index, item in enumerate(self._slot[index]):
-                # Key already exists, override the value by replacing the element at that position.
+                # Key already exists, override the value by replacing the entry at that position.
                 if item.key == key:
-                    self._slot[index][sub_index] = element
+                    self._slot[index][sub_index] = entry
                     return
             # The key does not already exist.
-            self._slot[index].append(element)
+            self._slot[index].append(entry)
         else:
-            self._slot[index] = [element]
+            self._slot[index] = [entry]
         self._size += 1
 
         load_factor = self._size / len(self._slot)
